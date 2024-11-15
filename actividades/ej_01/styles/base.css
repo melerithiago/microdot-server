@@ -19,6 +19,13 @@ header h1 {
 
 main {
     min-height: 70vh;
+    align-items: center;
+}
+
+main #sensei
+{
+    width: 256px;
+    height: 556px;
 }
 
 footer {
