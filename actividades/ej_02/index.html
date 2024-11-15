@@ -3,22 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad #</title>
+    <title>Actividad 2</title>
     <link rel="stylesheet" href="styles/base.css">
 </head>
 <body>
     <header>
-        <h1>Actividad #</h1>
+        <h1>Esto está aca por el efecto simetría</h1>
+        <h2>Aguante el pincha </h2>
     </header>
+
     <main>
+        <section>
+            <h2>Parte 1: Prender/Apagar los LEDs con un botón</h2>
+            <button onclick="toggleLED(1)">LED Rojo</button>
+            <button onclick="toggleLED(2)">LED Amarillo</button>
+            <button onclick="toggleLED(3)">LED Verde</button>
+        </section>
+        <section>
+            <h2>Parte 2: Controlar una tira LED con una barra deslizable</h2>
+            <input type="color" id="colorPicker" onchange="setStripColor(this.value)">
+        </section>
     </main>
     <footer>
-        <p>Representación Frontal y Visual de Datos</p>
-        <p>Computadoras de Aeronaves</p>
-        <p>Alumno XX</p>
+        <p>Materia y Módulo: Representación Frontal y Visual de Datos, Computadoras de Aeronaves</p>
+        <p>Actividad Número 2 de Microdot</p>
+        <p>Alumno Meleri Thiago Joaquin </p>
         <p>Prof. Carlassara Fabrizio</p>
         <p id="fecha"></p>
     </footer>
     <script src="scripts/base.js"></script>
+    <script>
+        let ledStates = [false, false, false];
+
+        function toggleLED(ledNum) {
+            ledStates[ledNum-1] = !ledStates[ledNum-1];
+            fetch(`/led?led=${ledNum}&state=${ledStates[ledNum-1]}`)
+                .then(response => response.text())
+                .then(data => console.log(data));
+        }
+
+        function setStripColor(color) {
+            const rgb = hexToRgb(color);
+            fetch(`/color?r=${rgb.r}&g=${rgb.g}&b=${rgb.b}`)
+                .then(response => response.text())
+                .then(data => console.log(data));
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+    </script>
 </body>
 </html>
